@@ -16,7 +16,7 @@
             <Button type="primary" icon="md-add"></Button>
         </FormItem>
     </Form>
-    <Table width='auto' border :columns="columns" :data="tableData">
+    <Table style="overflow:initial;" width='auto' border :columns="columns" :data="tableData">
         <!-- 表名 -->
         <template slot-scope="{ row, index }" slot="name">
           <Input type="text" v-model="row.name" v-if="editIndex === index" />
@@ -158,12 +158,15 @@ export default {
               on: {
                 getID: (val) => {
                   params.row = val
-                  this.tableData.map(e => {
-                    if (e.name === val.name) {
-                      e.id = val.id
-                      e.scheme = val.scheme
-                    }
-                  })
+                  let td = this.tableData.map(e => ({
+                    name: e.name,
+                    comments: e.comments,
+                    className: e.className,
+                    tableRows: e.tableRows,
+                    id: e.name === val.name ? val.id : '',
+                    scheme: e.name === val.name ? val.scheme : false
+                  }))
+                  this.tableData = td
                 }
               }
             })
@@ -197,15 +200,18 @@ export default {
         this.$ajax.get('/sys/gen/scheme/genCode?id=' + this.scheme.id + '&replaceFile=' + this.replaceFile).then((res) => {
           this.scheme.genCode = true
           this.$Message.success('代码已生成')
-          this.tableData[this.nowRow].scheme = true
           this.isScheme = false
-          this.nowRow = -1
+          if (this.nowRow !== -1) {
+            this.tableData[this.nowRow].scheme = true
+            this.nowRow = -1
+          }
         })
       } else {
         this.isSchemeModal = true
       }
     },
     getScheme (id) {
+      this.scheme = { category: '单表' }
       this.$ajax.get('/sys/gen/scheme/getScheme?id=' + id).then((res) => {
         this.scheme = res.genScheme
         this.isScheme = true
@@ -217,7 +223,6 @@ export default {
           this.$ajax.post('/sys/gen/scheme/save', {
             genScheme: this.scheme
           }).then((res) => {
-            console.log(res)
             if (res.code === 200) {
               this.$Message.success('保存成功')
               this.scheme = res.data
@@ -233,6 +238,8 @@ export default {
     },
     // 生成方案
     genScheme (row, index) {
+      // 先清空方案数据
+      this.scheme = { category: '单表' }
       this.isScheme = true
       this.scheme.tableId = row.id
       this.scheme.functionName = row.comments

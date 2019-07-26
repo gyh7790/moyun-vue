@@ -9,6 +9,7 @@
         <th v-for="col in tableColumns" :key="col.key">
           {{col.title}}
         </th>
+        <th>接口管理</th>
         <th>操作</th>
       </tr>
     </thead>
@@ -22,9 +23,12 @@
             </span>
           </span>
         </td>
+        <th>
+          <urlManage ></urlManage>
+        </th>
         <td width="200" style="text-align:center;"  class="action-col">
           <i-button type="warning" @click="onEdit(item,trIndex)" size="small">编辑</i-button>
-          <i-button type="error" @click="onDelete(item, trIndex)" size="small">删除</i-button>
+          <i-button type="error"  @click="onDelete(item, trIndex)" size="small">删除</i-button>
           <i-button type="primary" @click="onAdd(item,trIndex)" size="small">添加</i-button>
         </td>
       </tr>
@@ -74,7 +78,11 @@
 </template>
 
 <script>
+import urlManage from './subset/urlManage'
 export default {
+  components: {
+    urlManage
+  },
   data () {
     return {
       tableData: [],

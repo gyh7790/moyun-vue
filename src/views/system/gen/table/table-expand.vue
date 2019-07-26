@@ -34,7 +34,7 @@
               </div>
           </Form>
         </Card>
-        <Table :columns="columns" :data="form.columns">
+        <Table style="overflow:initial;" :columns="columns" :data="form.columns">
           <!-- 表名 -->
           <template slot-scope="{ row,index }" slot="comments">
             <Input type="text" v-model="form.columns[index].comments" />

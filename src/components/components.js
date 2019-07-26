@@ -7,3 +7,6 @@ Vue.component('Pages', () => import('@/components/page/pages.vue'))
 
 // tree - 基础
 Vue.component('zTree', () => import('@/components/tree/index.vue'))
+
+// 字典 选择器
+Vue.component('Dict', () => import('@/components/dict/dict.vue'))

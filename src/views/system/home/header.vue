@@ -23,26 +23,26 @@ export default {
       ws: null
     }
   },
-  mounted () {
-    this.ws = new WebSocket(`ws://localhost:8083/webSocket?token=123456789`)
+  // mounted () {
+  //   this.ws = new WebSocket(`ws://127.0.0.1:8083/webSocket?token=123456789`)
 
-    this.ws.onopen = evt => {
-      console.log('Socket connection open.')
-    }
+  //   this.ws.onopen = evt => {
+  //     console.log('Socket connection open.')
+  //   }
 
-    this.ws.onmessage = evt => {
-      this.$Notice.info({
-        title: '定时任务',
-        desc: evt.data
-      })
-    }
+  //   this.ws.onmessage = evt => {
+  //     this.$Notice.info({
+  //       title: '定时任务',
+  //       desc: evt.data
+  //     })
+  //   }
 
-    this.ws.onclose = evt => {
-      console.log('******************')
-      console.log('关闭连接.......')
-      console.log('******************')
-    }
-  },
+  //   this.ws.onclose = evt => {
+  //     console.log('******************')
+  //     console.log('关闭连接.......')
+  //     console.log('******************')
+  //   }
+  // },
   computed: {
     nowTabStr () {
       return this.$store.state.nowTabStr

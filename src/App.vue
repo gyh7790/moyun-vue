@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<style lang="scss" scope>
+<style lang="scss">
 *{
   margin: 0px;
   padding: 0px;
@@ -22,5 +22,8 @@ html,body{
   color: #2c3e50;
   width: 100%;
   height: 100%;
+}
+.ivu-table-wrapper{
+  overflow: initial;
 }
 </style>

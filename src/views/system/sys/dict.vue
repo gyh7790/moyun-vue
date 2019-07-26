@@ -18,7 +18,7 @@
       </FormItem>
     </Form>
 
-    <Table  border :columns="tablecolumn" :data="tableData">
+    <Table border :columns="tablecolumn" :data="tableData">
       <template slot-scope="{ row, index }" slot="value">
         <Input type="text" v-model="row.value" v-if="editIndex === index" />
         <span v-else>{{ row.value }}</span>
@@ -133,9 +133,10 @@ export default {
     saveDict (row, index) {
       this.loading = true
       this.$ajax.post('/sys/dict/save', row).then((res) => {
+        this.$Message.success(res.msg)
         this.editIndex = -1
         this.loading = false
-      }).catch((res) => {this.loading = false})
+      }).catch((res) => { this.loading = false })
     },
     addRow (row, index) {
       let flag = true
@@ -171,6 +172,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scope>
 .ivu-table-tip table{
       width: auto;

@@ -65,7 +65,8 @@ export default {
   beforeCreate: function () {
     // 登入成功, 获取访问菜单
     this.$ajax.get('/sys/menu/nav').then((res) => {
-      this.$store.commit('setNavList', res.list)
+      // console.log(res)
+      // this.$store.commit('setNavList', res.list)
       this.menuList = res.list
     })
   },
