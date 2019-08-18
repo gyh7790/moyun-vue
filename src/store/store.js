@@ -7,10 +7,12 @@ export default new Vuex.Store({
   state: {
     testDate: [],
     navList: [],
-    nowTabStr: '欢迎使用'
+    nowTabStr: '首页'
   },
   getters: {
-
+    getNavList () {
+      return window.sessionStorage.getItem('MOYUN_MENU')
+    }
   },
   mutations: {
     // 左侧菜单列表
@@ -22,9 +24,8 @@ export default new Vuex.Store({
       state.testDate = localStorage.testDate ? JSON.parse(localStorage.testDate) : []
     },
     // 左侧菜单列表
-    setNavList (state, list) {
-      state.navList = list
-      localStorage.navList = JSON.stringify(state.navList)
+    setNowTabStr (state, value) {
+      state.nowTabStr = value
     },
     reloadNavList (state) {
       state.navList = localStorage.navList ? JSON.parse(localStorage.navList) : []

@@ -19,7 +19,6 @@
 </div>
 </template>
 <script>
-import Cookies from 'js-cookie'
 export default {
   data () {
     return {
@@ -39,56 +38,36 @@ export default {
       caution: ''
     }
   },
+  beforeCreate () {
+    this.$cookie.remove('token')
+    window.sessionStorage.clear()
+  },
   methods: {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         this.caution = ''
         if (valid) {
           this.$ajax({
-            method:'POST',
-            url:'http://127.0.0.1:8083/login',
+            method: 'POST',
+            url: '/login',
             params: {
               username: this.userForm.username,
               password: this.userForm.password
-            },
-            headers:{
-              'Access-Control-Allow-Credentials': 'true',
-              'Access-Control-Allow-Origin': 'http://127.0.0.1:8083',
-              'Accept': '*/*',
-              'Content-Type': 'application/x-www-form-=urlencoded',
             }
           }).then((res) => {
             if (res.code === 200) {
-              Cookies.set('token', res.token,  { expires: 10000 })
-              console.log(Cookies.get('token'))
+              this.$cookie.set('token', res.token, { expires: 10000 })
               this.$Message.success(res.msg)
               // 登入成功跳转
               this.$router.push({ name: 'mainpath' })
             } else if (res.code === 201) {
-              this.caution = '*  '+res.msg
+              this.caution = '*  ' + res.msg
             } else {
               this.$Message.error(res.msg)
             }
           }).catch((res) => {
             this.$Message.error(res.msg)
           })
-          // this.$ajax.post('/login', {
-          //   username: this.userForm.username,
-          //   password: this.userForm.password,
-          //   captcha: '1234'
-          // }).then((res) => {
-          //   if (res.code === 200) {
-          //     this.$Message.success(res.msg)
-          //     // 登入成功跳转
-          //     this.$router.push({ name: 'mainpath' })
-          //   } else if (res.code === 201) {
-          //     this.caution = '*  '+res.msg
-          //   } else {
-          //     this.$Message.error(res.msg)
-          //   }
-          // }).catch((res) => {
-          //   this.$Message.error(res.msg)
-          // })
         }
       })
     }

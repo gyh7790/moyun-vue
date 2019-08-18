@@ -1,13 +1,19 @@
 <template>
     <div class="layout">
         <Layout>
-            <Sider ref="side1" hide-trigger width="auto" collapsible :collapsed-width="78" v-model="isCollapsed">
-                <div style="height:60px;"></div>
-                <Aside></Aside>
+            <Sider v-show="isCollapsed" ref="side" hide-trigger width="auto" collapsible :collapsed-width="78">
+                <div class="side-logo">
+                  <a href="/main/mainpath" class="wrapper-header-nav-logo router-link-active">
+                    <img height="50px" src="https://file.iviewui.com/dist/e1cf12c07bf6458992569e67927d767e.png">
+                  </a>
+                </div>
+                <div style="height:100%;overflow-y:auto;">
+                <Aside :isCollapsed="isCollapsed"></Aside>
+                </div>
             </Sider>
             <Layout>
-                <Header/>
-                <Content :style="{margin: '5px',padding: '5px', background: '#fff', minHeight: 'aoto'}">
+                <Header :isCollapsed="isCollapsed" @toggle-collapse="collapsedSider"/>
+                <Content :style="{margin: '5px',padding: '5px 8px', background: '#fff', minHeight: 'aoto'}">
                    <router-view></router-view>
                 </Content>
             </Layout>
@@ -25,26 +31,12 @@ export default {
   },
   data () {
     return {
-      isCollapsed: false
-    }
-  },
-  computed: {
-    rotateIcon () {
-      return [
-        'menu-icon',
-        this.isCollapsed ? 'rotate-icon' : ''
-      ]
-    },
-    menuitemClasses () {
-      return [
-        'menu-item',
-        this.isCollapsed ? 'collapsed-menu' : ''
-      ]
+      isCollapsed: true
     }
   },
   methods: {
     collapsedSider () {
-      this.$refs.side1.toggleCollapse()
+      this.isCollapsed = !this.isCollapsed
     }
   }
 }
@@ -60,6 +52,12 @@ export default {
     }
     .ivu-layout{
         height: 100%;
+        overflow-y: hidden;
+    }
+    .ivu-layout-content {
+      overflow-y:auto;
+      margin: 8px;
+      padding: 0px 8px;
     }
     .layout-header-bar{
         background: #fff;
@@ -72,7 +70,14 @@ export default {
         border-radius: 3px;
         margin: 15px auto;
     }
-    .ivu-layout-sider{
-        background: #61768a;
+    
+    .side-logo {
+      height: 65px;
+      background: white;
+      text-align: center;
+      line-height: 100px;
+    }
+    .wrapper-header-nav-logo {
+        height: 50px;
     }
 </style>

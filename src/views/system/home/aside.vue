@@ -1,7 +1,6 @@
 <template>
   <Menu theme="light" style="width: 240px;"
-    @on-select="changeMenu"
-    >
+    @on-select="changeMenu">
     <template v-for="item in menuList">
          <!-- 第一级, 含有子元素 -->
         <Submenu :name="item.name" v-if="item.children.length > 0" :key="item.target" >
@@ -59,20 +58,46 @@
 export default {
   data () {
     return {
-      menuList: []
+      menuList: [],
+      listFormat: []
     }
   },
-  beforeCreate: function () {
-    // 登入成功, 获取访问菜单
-    this.$ajax.get('/sys/menu/nav').then((res) => {
-      // console.log(res)
-      // this.$store.commit('setNavList', res.list)
-      this.menuList = res.list
-    })
+  mounted () {
+    this.getMenuList()
   },
   methods: {
     changeMenu (name) {
+      console.log(name)
+      this.getListFormat(name)
       this.$router.push({ name: name })
+    },
+    getMenuList () {
+      this.menuList = JSON.parse(this.$store.getters.getNavList)
+      if (!this.menuList) {
+        this.$ajax.get('/sys/menu/nav').then((res) => {
+          this.menuList = res.list
+          window.sessionStorage.setItem('MOYUN_MENU', JSON.stringify(res.list))
+        })
+      }
+    },
+    getListFormat (name) {
+      let str = []
+      let recursion = (menu) => {
+        menu.forEach(e=>{
+          if (e.children.length > 0) {
+            recursion(e.children)
+          } else if (e.target === name) {
+            str.push(e.name)
+          }
+          if (str.length > 0 && e.children.length > 0) {
+            str.push(e.name)
+          }
+        })
+      }
+      recursion(this.menuList)
+      str.reverse()
+      this.$store.commit('setNowTabStr', str.join('/'));
+      console.log(str.join('/'))
     }
   }
 }

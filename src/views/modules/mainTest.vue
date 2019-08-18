@@ -1,9 +1,12 @@
 <template>
+<div>
+  <HeaderTitle title="首页" />
     <Scroll :on-reach-bottom="handleReachBottom" style="height: 500px;">
         <Card dis-hover v-for="(item, index) in list1"  :key="index" style="margin: 32px 0;height: 100%;">
             Content {{ item }}
         </Card>
     </Scroll>
+</div>
 </template>
 <script>
 export default {

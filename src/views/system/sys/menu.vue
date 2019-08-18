@@ -94,8 +94,7 @@ export default {
         { title: '链接', key: 'href', align: 'center' },
         { title: '目标', key: 'target', align: 'center' },
         { title: '排序', key: 'sort', align: 'center' },
-        { title: '可见', key: 'isShow', align: 'center' },
-        { title: '权限标识', key: 'permission', align: 'center' }
+        { title: '可见', key: 'isShow', align: 'center' }
       ],
       modelForm: {
         parentId: 1,

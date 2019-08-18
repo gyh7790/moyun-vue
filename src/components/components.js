@@ -10,3 +10,6 @@ Vue.component('zTree', () => import('@/components/tree/index.vue'))
 
 // 字典 选择器
 Vue.component('Dict', () => import('@/components/dict/dict.vue'))
+
+// 布局 标题
+Vue.component('HeaderTitle', () => import('@/components/header/headerTitle.vue'))
